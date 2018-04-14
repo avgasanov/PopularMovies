@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="average_rate">Average rate: </string>
+    <string name="release_date">Release date: </string>
+    <string name="synopsis">Synopsis: </string>
+
+    <string name="pop_order">Order by popularity</string>
+    <string name="rate_order">Order by rating</string>
+
+    <string name="poster">Poster</string>
+    <string name="poster_thumbnail">Poster thumbnail</string>
+</resources>
