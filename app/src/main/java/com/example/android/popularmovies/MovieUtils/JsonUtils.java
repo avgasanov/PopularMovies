@@ -29,6 +29,10 @@ public class JsonUtils {
      * @throws JSONException
      */
     public static Movie[] parseMovieJson(String jsonString) throws JSONException {
+        if (jsonString == null) {
+            return null;
+        }
+
         JSONObject movieJsonObject = new JSONObject(jsonString);
         if (movieJsonObject.has(OWM_MESSAGE_CODE) && movieJsonObject.getInt(OWM_MESSAGE_CODE) != HTTP_OK) {
             return null;

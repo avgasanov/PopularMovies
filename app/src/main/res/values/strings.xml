@@ -9,4 +9,6 @@
 
     <string name="poster">Poster</string>
     <string name="poster_thumbnail">Poster thumbnail</string>
+
+    <string name="connection_error">Error occurred during getting data from server. Please, check internet connection and select sorting order.</string>
 </resources>

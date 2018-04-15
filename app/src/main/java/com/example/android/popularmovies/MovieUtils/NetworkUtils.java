@@ -1,5 +1,8 @@
 package com.example.android.popularmovies.MovieUtils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
 import java.io.IOException;
@@ -13,17 +16,15 @@ import javax.net.ssl.HttpsURLConnection;
 public class NetworkUtils {
 
     //TODO please, insert your api key here
-    private final static String API_KEY = "HERE_GOES_YOUR_API_KEY";
+    private final static String API_KEY = "API_KEY_GOES_HERE";
 
-    private final static String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private final static String BASE_URL = "https://api.themoviedb.org/3/movie";
     private final static String IMAGE_BASE_URL = " http://image.tmdb.org/t/p/";
 
-
-    private final static String QUERY_PARAM_SORT = "sort_by";
     private final static String QUERY_PARAM_API_KEY = "api_key";
 
-    public final static String MOST_POPULAR_ORDER = "popularity.desc";
-    public final static String TOP_RATED_ORDER = "vote_average.desc";
+    public final static String MOST_POPULAR_ORDER = "popular";
+    public final static String TOP_RATED_ORDER = "top_rated";
 
     public final static String IMAGE_SIZE_STANDART = "w185";
     public final static String IMAGE_SIZE_ORIGINAL = "original";
@@ -41,10 +42,9 @@ public class NetworkUtils {
         }
 
         Uri resource = Uri.parse(BASE_URL).buildUpon()
+                            .appendPath(sortOrder)
                             .appendQueryParameter(QUERY_PARAM_API_KEY, API_KEY)
-                            .appendQueryParameter(QUERY_PARAM_SORT, sortOrder)
                             .build();
-
         URL url;
         try {
             url = new URL(resource.toString());
@@ -97,10 +97,16 @@ public class NetworkUtils {
                 return null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork.isConnectedOrConnecting();
     }
 }

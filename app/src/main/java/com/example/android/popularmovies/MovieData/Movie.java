@@ -45,7 +45,11 @@ public class Movie implements Parcelable{
     }
 
     public String getPoster(String size) {
-        return buildImageUrl(size, poster).toString();
+        if (poster == null) {
+            return null;
+        } else {
+            return buildImageUrl(size, poster).toString();
+        }
     }
 
     @Override
