@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.popularmovies.MovieUtils.NetworkUtils;
 import com.example.android.popularmovies.R;
 import com.squareup.picasso.Picasso;
@@ -38,6 +39,11 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         String posterURL = movie.getPoster(NetworkUtils.IMAGE_SIZE_STANDART);
         if (poster != null) {
             Picasso.with(context).load(posterURL).into(poster);
+        }
+
+        byte[] image = movie.getImageFromDb();
+        if (image != null) {
+            Glide.with(context).load(image).into(poster);
         }
 
         return convertView;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="list_preference_sort_entries">
+        <item>@string/list_preference_sort_popular_entry</item>
+        <item>@string/list_preference_sort_rated_entry</item>
+        <item>@string/list_preference_sort_favorite_entry</item>
+    </string-array>
+
+    <string-array name="list_preference_sort_entryValues">
+        <item>@string/list_preference_sort_popular_entryValue</item>
+        <item>@string/list_preference_sort_rated_entryValue</item>
+        <item>@string/list_preference_sort_favorite_entryValue</item>
+
+    </string-array>
+</resources>

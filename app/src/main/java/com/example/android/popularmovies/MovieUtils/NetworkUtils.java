@@ -4,11 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -18,16 +21,25 @@ public class NetworkUtils {
     //TODO please, insert your api key here
     private final static String API_KEY = "API_KEY_GOES_HERE";
 
-    private final static String BASE_URL = "https://api.themoviedb.org/3/movie";
+    private final static String BASE_URL = "https://api.themoviedb.org/3";
     private final static String IMAGE_BASE_URL = " http://image.tmdb.org/t/p/";
+    private final static String MOVIE_PATH = "movie";
+    private final static String VIDEOS_PATH = "videos";
+    private final static String REVIEWS_PATH = "reviews";
 
     private final static String QUERY_PARAM_API_KEY = "api_key";
 
     public final static String MOST_POPULAR_ORDER = "popular";
     public final static String TOP_RATED_ORDER = "top_rated";
 
+
     public final static String IMAGE_SIZE_STANDART = "w185";
     public final static String IMAGE_SIZE_ORIGINAL = "original";
+
+    private final static String YOUTUBE_BASE_URL = "https://youtube.com/watch";
+    private final static String YOUTUBE_QUERY_PARAM = "v";
+
+
 
     /**
      * This method builds URL for request to the movie database site. Response to this URL should be
@@ -42,17 +54,11 @@ public class NetworkUtils {
         }
 
         Uri resource = Uri.parse(BASE_URL).buildUpon()
+                            .appendPath(MOVIE_PATH)
                             .appendPath(sortOrder)
                             .appendQueryParameter(QUERY_PARAM_API_KEY, API_KEY)
                             .build();
-        URL url;
-        try {
-            url = new URL(resource.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return url;
+        return uriToUrl(resource);
     }
 
     /**
@@ -67,9 +73,50 @@ public class NetworkUtils {
         Uri imageResource = Uri.parse(IMAGE_BASE_URL).buildUpon()
                                         .appendPath(size)
                                         .appendEncodedPath(image).build();
+        return uriToUrl(imageResource);
+    }
+
+    public static URL buildReviewsUrl(String id) {
+        Log.v("BLDREVURL", "Building reviews url with id:" + id + " ....");
+        Uri reviews = Uri.parse(BASE_URL).buildUpon()
+                            .appendPath(MOVIE_PATH)
+                            .appendPath(id)
+                            .appendPath(REVIEWS_PATH)
+                            .appendQueryParameter(QUERY_PARAM_API_KEY, API_KEY).build();
+        URL reviewUrl = uriToUrl(reviews);
+        return uriToUrl(reviews);
+    }
+
+    public static URL buildVideoUrl(String id) {
+        Log.v("BLDVIDEOURL", "Building video url with id:" + id + " ....");
+        Uri videos = Uri.parse(BASE_URL).buildUpon()
+                                .appendEncodedPath(MOVIE_PATH)
+                                .appendPath(id)
+                                .appendQueryParameter(QUERY_PARAM_API_KEY, API_KEY)
+                                .appendPath(VIDEOS_PATH).build();
+        URL videoUrl = uriToUrl(videos);
+        return videoUrl;
+    }
+
+    public static Uri buildYoutubeUri(String key) {
+        Uri youtubeLink = Uri.parse(YOUTUBE_BASE_URL).buildUpon()
+                                .appendQueryParameter(YOUTUBE_QUERY_PARAM, key).build();
+        Log.v("YTBURL", "Youtube link is " + youtubeLink.toString());
+        return youtubeLink;
+    }
+
+    public static Uri buildYoutubeImageUri(String key) {
+        Uri youtubeLink = Uri.parse("http://img.youtube.com/vi/").buildUpon()
+                                .appendPath(key)
+                                .appendPath("0.jpg").build();
+        Log.v("YTBURLIMG", "Youtube image link is " + youtubeLink.toString());
+        return youtubeLink;
+    }
+
+    private static URL uriToUrl(Uri uri) {
         URL url;
         try {
-            url = new URL(imageResource.toString());
+            url = new URL(uri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
@@ -84,6 +131,8 @@ public class NetworkUtils {
      * @throws IOException
      */
     public static String getJSONResponseFromUrl(URL url) throws IOException{
+        Log.v("URL", url.toString());
+
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         try {
             InputStream responseStream = urlConnection.getInputStream();
@@ -104,9 +153,42 @@ public class NetworkUtils {
     }
 
     public static boolean isConnected(Context context) {
-        ConnectivityManager cm =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork.isConnectedOrConnecting();
+        try {
+            ConnectivityManager cm =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork.isConnectedOrConnecting();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    //SOURCE: https://stackoverflow.com/questions/43139086/not-able-to-convert-image-from-url-into-byte-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+    // almost no changes done
+    public static byte[] convertImageToByte(String url){
+        try {
+
+            URL imageUrl = new URL(url);
+            URLConnection ucon = imageUrl.openConnection();
+
+            InputStream is = ucon.getInputStream();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int read;
+
+            while ((read = is.read(buffer, 0, buffer.length)) != -1) {
+                baos.write(buffer, 0, read);
+            }
+
+            baos.flush();
+
+            return  baos.toByteArray();
+
+        } catch (Exception e) {
+            Log.d("ImageManager", "Error: " + e.toString());
+        }
+
+        return null;
     }
 }

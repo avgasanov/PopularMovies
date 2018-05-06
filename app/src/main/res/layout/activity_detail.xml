@@ -1,75 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <!-- Movie details layout contains title, release date, movie poster, vote average, and plot synopsis. !-->
         <ImageView
+            android:id="@+id/iv_thumbnail"
             android:layout_width="200dp"
             android:layout_height="300dp"
-            android:id="@+id/iv_thumbnail"
             android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"
-            android:contentDescription="@string/poster_thumbnail" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/poster_thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_thumbnail"
-            android:layout_margin="5dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:textSize="35sp"
             android:textStyle="bold"
-            android:id="@+id/tv_title"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+            tools:text="Buggy day" />
+
         <TextView
+            android:id="@+id/release_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:layout_height="31dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/release_date"
-            android:layout_margin="5dp"
-            android:layout_below="@+id/tv_title"
-            android:id="@+id/release_date"/>
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
         <TextView
+            android:id="@+id/tv_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
+            android:layout_marginEnd="24dp"
             android:layout_toEndOf="@id/release_date"
-            android:layout_margin="5dp"
             android:textSize="22sp"
-            android:id="@+id/tv_release_date"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/release_date"
+            tools:text="10.01.10" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:text="@string/average_rate"
-            android:layout_margin="5dp"
-            android:layout_below="@+id/tv_release_date"
-            android:id="@+id/average_rate"/>
-        <TextView
+            android:id="@+id/tv_average_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_release_date"
             android:layout_toEndOf="@id/average_rate"
-            android:layout_margin="5dp"
             android:textSize="22sp"
-            android:id="@+id/tv_average_rate"/>
+            app:layout_constraintStart_toStartOf="@+id/tv_release_date"
+            app:layout_constraintTop_toTopOf="@+id/average_rate"
+            tools:text="9.9" />
+
         <TextView
+            android:id="@+id/synopsis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:layout_margin="5dp"
+            android:layout_below="@+id/tv_average_rate"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
             android:text="@string/synopsis"
-            android:layout_below="@+id/tv_average_rate"
-            android:id="@+id/synopsis"/>
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/average_rate" />
+
         <TextView
+            android:id="@+id/tv_synopsis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/synopsis"
-            android:layout_margin="5dp"
+            android:layout_marginTop="16dp"
             android:gravity="fill_horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:textSize="22sp"
-            android:id="@+id/tv_synopsis"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/synopsis"
+            tools:text="Parsifal: Parsifal, music drama in three acts by German composer Richard Wagner, with a German libretto by the composer. The work was first performed at Bayreuth, Bavaria, Germany, on July 26, 1882, not long before Wagner's death, on February 13, 1883. The Transformation Music from Act I and the Good Friday." />
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="starClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/iv_thumbnail"
+            app:srcCompat="@android:drawable/btn_star_big_on"
+            android:contentDescription="@string/mark_favorite"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailers_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_synopsis"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/related_videos_tv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviews_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/trailers_rv"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviews_id" />
+
+        <TextView
+            android:id="@+id/average_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_release_date"
+            android:layout_marginTop="16dp"
+            android:text="@string/average_rate"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="@+id/release_date"
+            app:layout_constraintTop_toBottomOf="@+id/release_date" />
+
+        <TextView
+            android:id="@+id/related_videos_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/related_videos"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_synopsis"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/reviews_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/reviews_lbl"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trailers_rv"
+            android:visibility="gone"/>
+
+    </android.support.constraint.ConstraintLayout>
 </ScrollView>

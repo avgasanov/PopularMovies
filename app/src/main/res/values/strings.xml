@@ -11,4 +11,27 @@
     <string name="poster_thumbnail">Poster thumbnail</string>
 
     <string name="connection_error">Error occurred during getting data from server. Please, check internet connection and select sorting order.</string>
+    <string name="trailer">Trailer for movie</string>
+    <string name="related_videos">Related videos</string>
+    <string name="reviews_lbl">Reviews:</string>
+    <string name="show_favorites">Favorite Movies</string>
+
+    <string name="order_key" translatable="false">Sort order</string>
+    <string name="switching_to_favorites" translatable="false">Internet connection lost. Switching to favorite movies</string>
+
+    <!-- preference screen sort order -->
+    <string name="list_preference_sort_popular_entryValue" translatable="false">0</string>
+    <string name="list_preference_sort_rated_entryValue" translatable="false">1</string>
+    <string name="list_preference_sort_favorite_entryValue" translatable="false">2</string>
+
+    <string name="list_preference_sort_popular_entry">Popular Movies</string>
+    <string name="list_preference_sort_rated_entry">Top Rated Movies</string>
+    <string name="list_preference_sort_favorite_entry">My Favorite Movies</string>
+
+    <string name="list_preference_sort_key" translatable="false">list_sort</string>
+    <string name="list_preference_sort_label">Order by</string>
+    <string name="settings_menu">Settings</string>
+    <string name="mark_favorite">Mark this film as favorite</string>
+    <string name="error_no_favorites">No favorite movies found</string>
+
 </resources>
