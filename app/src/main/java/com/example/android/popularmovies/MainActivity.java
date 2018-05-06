@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 initDatabaseLoader();
                 break;
                 default:
+                    Log.v("PREFERENCETROUBLE", "default switch is working");
                     defPreferences.edit()
                             .putString(orderPreferenceKey, String.valueOf(CATEGORY_FAVORITES))
                             .apply();
@@ -233,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             loaderManager.restartLoader(MOVIE_FROM_DATABASE_LOADER_ID, null, this);
         }
 
-        showProgress();
     }
 
     @Override
@@ -254,8 +254,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
+        String shared = PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.list_preference_sort_key), "NOT");
+
         switch (loader.getId()) {
             case MOVIE_LOADER_ID:
+                if (shared != String.valueOf(CATEGORY_POPULAR) && shared != String.valueOf(CATEGORY_RATED)) {
+                    break;
+                }
                 if (data == null) {
                     showError();
                 } else {
@@ -265,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 break;
             case MOVIE_FROM_DATABASE_LOADER_ID:
+                if (shared != String.valueOf(CATEGORY_FAVORITES)) {
+                    break;
+                }
                 if (data == null) {
                     showError();
                 } else {
@@ -272,8 +280,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     movieArrayList = MovieUtils.loadMovieFromDatabase((Cursor) data);
                     if (movieArrayList == null) {
                         movieArrayList = new ArrayList<Movie>();
-                        initializeAdapter();
                         Toast.makeText(this, getString(R.string.error_no_favorites), Toast.LENGTH_SHORT).show();
+                        initializeAdapter();
                     }
                 }
                 break;
