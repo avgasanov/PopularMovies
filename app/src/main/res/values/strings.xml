@@ -33,5 +33,6 @@
     <string name="settings_menu">Settings</string>
     <string name="mark_favorite">Mark this film as favorite</string>
     <string name="error_no_favorites">No favorite movies found</string>
+    <string name="error_no_movies">No movies found</string>
 
 </resources>

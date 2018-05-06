@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private GridView gridView;
     private TextView errorView;
     private ProgressBar progressBar;
+
+    private Menu optionsMenu;
 
 
     final private static String INSTANCE_STATE_MOVIES = "movies";
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        optionsMenu = menu;
         return true;
     }
 
@@ -268,16 +272,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     showError();
                 } else {
                     showGrid();
-                    ArrayList<Movie> loadedMovies = MovieUtils.loadMovieFromDatabase((Cursor) data);
-                    if (loadedMovies == null) {
+                    ArrayList<Movie> loaderResult = MovieUtils.loadMovieFromDatabase((Cursor) data);
+                    if (loaderResult != null) {
+                        movieArrayList = loaderResult;
+                        initializeAdapter();
+                    } else {
+                        MenuItem item = optionsMenu.getItem(0);
+                        onOptionsItemSelected(item);
                         Toast.makeText(this, getString(R.string.error_no_favorites), Toast.LENGTH_SHORT).show();
-                        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                                .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_POPULAR))
-                                .apply();
-                        break;
                     }
-                    movieArrayList = loadedMovies;
-                    initializeAdapter();
                 }
                 break;
         }
