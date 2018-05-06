@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_favorite:
             {
                 initDatabaseLoader();
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_FAVORITES))
+                        .apply();
                 return true;
             }
             case R.id.action_settings:
@@ -268,11 +271,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     ArrayList<Movie> loadedMovies = MovieUtils.loadMovieFromDatabase((Cursor) data);
                     if (loadedMovies == null) {
                         Toast.makeText(this, getString(R.string.error_no_favorites), Toast.LENGTH_SHORT).show();
+                        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                                .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_POPULAR))
+                                .apply();
                         break;
                     }
-                    PreferenceManager.getDefaultSharedPreferences(this).edit()
-                            .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_FAVORITES))
-                            .apply();
                     movieArrayList = loadedMovies;
                     initializeAdapter();
                 }
