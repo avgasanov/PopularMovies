@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (id) {
             case R.id.action_popular:
             {
-                initLoader(MOST_POPULAR_ORDER);
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_POPULAR))
                         .apply();
@@ -181,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             case R.id.action_rated:
             {
-                initLoader(TOP_RATED_ORDER);
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_RATED))
                         .apply();
@@ -189,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             case R.id.action_favorite:
             {
-                initDatabaseLoader();
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putString(getString(R.string.list_preference_sort_key), String.valueOf(CATEGORY_FAVORITES))
                         .apply();
@@ -272,13 +269,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     showError();
                 } else {
                     showGrid();
-                    ArrayList<Movie> loaderResult = MovieUtils.loadMovieFromDatabase((Cursor) data);
-                    if (loaderResult != null) {
-                        movieArrayList = loaderResult;
+                    movieArrayList = MovieUtils.loadMovieFromDatabase((Cursor) data);
+                    if (movieArrayList == null) {
+                        movieArrayList = new ArrayList<Movie>();
                         initializeAdapter();
-                    } else {
-                        MenuItem item = optionsMenu.getItem(0);
-                        onOptionsItemSelected(item);
                         Toast.makeText(this, getString(R.string.error_no_favorites), Toast.LENGTH_SHORT).show();
                     }
                 }
