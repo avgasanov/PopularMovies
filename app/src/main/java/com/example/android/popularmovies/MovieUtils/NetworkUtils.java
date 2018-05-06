@@ -19,7 +19,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class NetworkUtils {
 
     //TODO please, insert your api key here
-    private final static String API_KEY = "API_KEY_GOES_HERE";
+    private final static String API_KEY = "API_GOES_HERE";
 
     private final static String BASE_URL = "https://api.themoviedb.org/3";
     private final static String IMAGE_BASE_URL = " http://image.tmdb.org/t/p/";

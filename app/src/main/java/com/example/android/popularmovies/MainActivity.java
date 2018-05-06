@@ -116,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     private void initMovies() {
         SharedPreferences defPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String orderPreferenceKey = getString(R.string.list_preference_sort_key);
@@ -234,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             loaderManager.restartLoader(MOVIE_FROM_DATABASE_LOADER_ID, null, this);
         }
 
+        showProgress();
     }
 
     @Override
@@ -258,21 +265,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         switch (loader.getId()) {
             case MOVIE_LOADER_ID:
-                if (shared != String.valueOf(CATEGORY_POPULAR) && shared != String.valueOf(CATEGORY_RATED)) {
-                    break;
-                }
                 if (data == null) {
                     showError();
                 } else {
                     showGrid();
                     movieArrayList = new ArrayList<>(Arrays.asList((Movie[]) data));
                     initializeAdapter();
+
                 }
+                getLoaderManager().destroyLoader(MOVIE_LOADER_ID);
                 break;
             case MOVIE_FROM_DATABASE_LOADER_ID:
-                if (shared != String.valueOf(CATEGORY_FAVORITES)) {
-                    break;
-                }
                 if (data == null) {
                     showError();
                 } else {
@@ -281,9 +284,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     if (movieArrayList == null) {
                         movieArrayList = new ArrayList<Movie>();
                         Toast.makeText(this, getString(R.string.error_no_favorites), Toast.LENGTH_SHORT).show();
-                        initializeAdapter();
+
                     }
                 }
+                initializeAdapter();
+                getLoaderManager().destroyLoader(MOVIE_FROM_DATABASE_LOADER_ID);
                 break;
         }
     }
